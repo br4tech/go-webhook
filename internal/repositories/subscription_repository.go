@@ -2,9 +2,9 @@ package repositories
 
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
-	"github.com/br4tech/go-webhook/internal/core/mapper"
 	"github.com/br4tech/go-webhook/internal/core/port"
 	"github.com/br4tech/go-webhook/internal/model"
+	"github.com/jinzhu/copier"
 )
 
 type SubscriptionRespository struct {
@@ -17,15 +17,17 @@ func NewSubscriptionRespository(adapter port.IMongoDatabase[model.Subscription])
 	}
 }
 
-func (repo *SubscriptionRespository) FindAll() ([]*domain.Subscription, error) {
+func (repo *SubscriptionRespository) FindAll() ([]domain.Subscription, error) {
+	subscriptionDomain := []domain.Subscription{}
+
 	subscriptions, err := repo.adapter.FindAll()
 	if err != nil {
 		return nil, err
 	}
 
-	subs = mapper.ConvertModelToDomain[domain.Subscription, model.Subscription](subscriptions)
+	err = copier.Copy(subscriptionDomain, subscriptions)
 
-	return subs, nil
+	return subscriptionDomain, nil
 }
 
 func (repo *SubscriptionRespository) Create(subscription *domain.Subscription) (*domain.Subscription, error) {
