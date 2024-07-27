@@ -1,4 +1,4 @@
-# Webhook de Notificação de Pagamentos com Arquitetura Hexagonal, MongoDB e Docker
+# Webhook de Notificação de Pagamentos
 
 Este projeto implementa um webhook robusto e escalável para notificações de status de pagamento, utilizando:
 
