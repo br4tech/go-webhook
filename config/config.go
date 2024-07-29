@@ -27,9 +27,17 @@ type (
 )
 
 func GetConfig() Config {
+
+	// executable, err := os.Executable()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// executableDir := filepath.Dir(executable)
+	// configPath := filepath.Join(executableDir, "../config.yml")
+
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("/")
+	viper.AddConfigPath("../")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -43,7 +51,7 @@ func GetConfig() Config {
 		Db: Db{
 			Host:           viper.GetString("database.host"),
 			Port:           viper.GetInt("datababse.port"),
-			Username:       viper.GetString("database.username"),
+			Username:       viper.GetString("database.user"),
 			Password:       viper.GetString("database.password"),
 			CollectionName: viper.GetString("database.collection_name"),
 			DatabaseName:   viper.GetString("database.database_name"),

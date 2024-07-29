@@ -3,53 +3,37 @@ package adapter
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/br4tech/go-webhook/config"
-	"github.com/br4tech/go-webhook/internal/core/port"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoAdapter[T any] struct {
-	Client         *mongo.Client
-	DatabaseName   string
-	CollectionName string
+	client *mongo.Client
+	cfg    *config.Config
 }
 
 func NewMongoAdapter[T any](
 	cfg *config.Config,
-	databaseName, dollectionName string,
-) port.IMongoDatabase[T] {
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%d", cfg.Db.Username, cfg.Db.Password, cfg.Db.Host, cfg.Db.Port)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	clientOptions := options.Client().ApplyURI(uri)
-	client, err := mongo.Connect(ctx, clientOptions)
-	if err != nil {
-		return nil
-	}
-
-	err = client.Ping(ctx, nil)
-	if err != nil {
-		return nil
-	}
+) *MongoAdapter[T] {
 
 	return &MongoAdapter[T]{
-		Client: client,
+		cfg: cfg,
 	}
 }
 
+func (adapter *MongoAdapter[T]) ClientMongo() *mongo.Client {
+	return adapter.client
+}
+
 func (adapter *MongoAdapter[T]) FindBy(filter interface{}) ([]T, error) {
-	if adapter.Client == nil {
+	if adapter.client == nil {
 		return nil, errors.New("Client is not initialized")
 	}
 
-	collection := adapter.Client.Database(adapter.DatabaseName).Collection(adapter.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -69,11 +53,11 @@ func (adapter *MongoAdapter[T]) FindBy(filter interface{}) ([]T, error) {
 }
 
 func (adapter *MongoAdapter[T]) FindAll() ([]T, error) {
-	if adapter.Client == nil {
+	if adapter.client == nil {
 		return nil, errors.New("client is not connected")
 	}
 
-	collection := adapter.Client.Database(adapter.DatabaseName).Collection(adapter.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -94,11 +78,11 @@ func (adapter *MongoAdapter[T]) FindAll() ([]T, error) {
 }
 
 func (adapter *MongoAdapter[T]) Create(entity T) error {
-	if adapter.Client == nil {
+	if adapter.client == nil {
 		return errors.New("client is not connected")
 	}
 
-	collection := adapter.Client.Database(adapter.DatabaseName).Collection(adapter.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -112,18 +96,18 @@ func (adapter *MongoAdapter[T]) Create(entity T) error {
 }
 
 func (adapter *MongoAdapter[T]) Disconnect() error {
-	if adapter.Client == nil {
+	if adapter.client == nil {
 		return errors.New("client is not connected")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err := adapter.Client.Disconnect(ctx)
+	err := adapter.client.Disconnect(ctx)
 	if err != nil {
 		return err
 	}
 
-	adapter.Client = nil // Limpa a referência ao cliente
+	adapter.client = nil // Limpa a referência ao cliente
 	return nil
 }

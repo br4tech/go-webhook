@@ -15,7 +15,7 @@ func main() {
 	cfg := config.GetConfig()
 
 	// 2. Criar o adaptador MongoDB
-	mongoAdapter := adapter.NewMongoAdapter[model.Subscription](&cfg, cfg.Db.DatabaseName, cfg.Db.CollectionName)
+	mongoAdapter := adapter.NewMongoAdapter[model.Subscription](&cfg)
 
 	// 3. Criar o repositório
 	subscriptionRepository := repositories.NewSubscriptionRespository(mongoAdapter)
@@ -27,7 +27,7 @@ func main() {
 	subscriptionHandler := handler.NewSubscriptionHandler(subscriptionUseCase)
 
 	// 6. Criar o servidor Echo
-	echoServer := server.NewEchoServer(&cfg, mongoAdapter, subscriptionHandler)
+	echoServer := server.NewEchoServer(&cfg, mongoAdapter.ClientMongo(), subscriptionHandler)
 
 	// 7. Iniciar o servidor
 	echoServer.Start()
