@@ -17,10 +17,12 @@ type (
 	}
 
 	Db struct {
-		Host     string
-		Port     int
-		User     string
-		Password string
+		Host           string
+		Port           int
+		Username       string
+		Password       string
+		CollectionName string
+		DatabaseName   string
 	}
 )
 
@@ -39,10 +41,12 @@ func GetConfig() Config {
 			Port: viper.GetInt("app.server.port"),
 		},
 		Db: Db{
-			Host:     viper.GetString("database.host"),
-			Port:     viper.GetInt("database.port"),
-			User:     viper.GetString("database.user"),
-			Password: viper.GetString("database.password"),
+			Host:           viper.GetString("database.host"),
+			Port:           viper.GetInt("datababse.port"),
+			Username:       viper.GetString("database.username"),
+			Password:       viper.GetString("database.password"),
+			CollectionName: viper.GetString("database.collection_name"),
+			DatabaseName:   viper.GetString("database.database_name"),
 		},
 	}
 }

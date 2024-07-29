@@ -6,10 +6,10 @@ import (
 )
 
 type SubscriptionUseCase struct {
-	repo port.IRepository
+	repo port.ISubscriptionRespository
 }
 
-func NewSubscriptionUseCase(repo port.IRepository) port.ISubscriptionUseCase {
+func NewSubscriptionUseCase(repo port.ISubscriptionRespository) port.ISubscriptionUseCase {
 	return &SubscriptionUseCase{
 		repo: repo,
 	}
@@ -24,7 +24,7 @@ func (usecase *SubscriptionUseCase) Create(subscriptrion *domain.Subscription) (
 	return sub, nil
 }
 
-func (usecase *SubscriptionUseCase) FindAll() ([]*domain.Subscription, error) {
+func (usecase *SubscriptionUseCase) FindAll() ([]domain.Subscription, error) {
 	sub, err := usecase.repo.FindAll()
 	if err != nil {
 		return nil, err

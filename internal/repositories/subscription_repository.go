@@ -34,7 +34,7 @@ func (repo *SubscriptionRespository) Create(subscription *domain.Subscription) (
 	subscriptionModel := new(model.Subscription)
 	subscriptionModel.FromDomain(subscription)
 
-	err := repo.adapter.Create(subscriptionModel)
+	err := repo.adapter.Create(*subscriptionModel)
 	if err != nil {
 		return nil, err
 	}
