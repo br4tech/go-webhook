@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/br4tech/go-webhook/cmd/subscriber/server"
+	"github.com/br4tech/go-webhook/cmd/payment/server"
 	"github.com/br4tech/go-webhook/config"
 	"github.com/br4tech/go-webhook/internal/adapter"
 	"github.com/br4tech/go-webhook/internal/core/usecase"
@@ -15,19 +15,19 @@ func main() {
 	cfg := config.GetConfig()
 
 	// 2. Criar o adaptador MongoDB
-	mongoAdapter := adapter.NewMongoAdapter[model.Subscription](&cfg)
+	mongoAdapter := adapter.NewMongoAdapter[model.Payment](&cfg)
 
 	// 3. Criar o repositório
-	subscriptionRepository := repositories.NewSubscriptionRespository(mongoAdapter)
+	paymentRepository := repositories.NewPaymentRepository(mongoAdapter)
 
 	// 4. Criar o caso de uso
-	subscriptionUseCase := usecase.NewSubscriptionUseCase(subscriptionRepository)
+	paymentUseCase := usecase.NewPaymentUsecase(paymentRepository)
 
 	// 5. Criar o handler
-	subscriptionHandler := handler.NewSubscriptionHandler(subscriptionUseCase)
+	paymentHandler := handler.NewPaymnentHandler(paymentUseCase)
 
 	// 6. Criar o servidor Echo
-	echoServer := server.NewEchoServer(&cfg, mongoAdapter.ClientMongo(), subscriptionHandler)
+	echoServer := server.NewEchoServer(&cfg, mongoAdapter.ClientMongo(), paymentHandler)
 
 	// 7. Iniciar o servidor
 	echoServer.Start()

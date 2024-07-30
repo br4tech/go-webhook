@@ -1,0 +1,13 @@
+app:
+  server:
+    port: 8080
+  
+database:
+  host: db
+  port: 27017
+  user: user
+  password: password
+  collection_name: subscriptions
+  database_name: paymentdb
+
+

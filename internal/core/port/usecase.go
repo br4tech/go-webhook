@@ -6,3 +6,7 @@ type ISubscriptionUseCase interface {
 	Create(subscriptrion *domain.Subscription) (*domain.Subscription, error)
 	FindAll() ([]domain.Subscription, error)
 }
+
+type IPaymentUsecase interface {
+	Create(payment *domain.Payment) (*domain.Payment, error)
+}
