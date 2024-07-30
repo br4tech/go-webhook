@@ -5,17 +5,17 @@ import (
 	"github.com/br4tech/go-webhook/internal/core/port"
 )
 
-type SubscriptionUseCase struct {
-	repo port.ISubscriptionRespository
+type SubscribeUseCase struct {
+	repo port.ISubscribeRespository
 }
 
-func NewSubscriptionUseCase(repo port.ISubscriptionRespository) port.ISubscriptionUseCase {
-	return &SubscriptionUseCase{
+func NewSubscribeUseCase(repo port.ISubscribeRespository) port.ISubscribeUseCase {
+	return &SubscribeUseCase{
 		repo: repo,
 	}
 }
 
-func (usecase *SubscriptionUseCase) Create(subscriptrion *domain.Subscription) (*domain.Subscription, error) {
+func (usecase *SubscribeUseCase) Create(subscriptrion *domain.Subscribe) (*domain.Subscribe, error) {
 	sub, err := usecase.repo.Create(subscriptrion)
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (usecase *SubscriptionUseCase) Create(subscriptrion *domain.Subscription) (
 	return sub, nil
 }
 
-func (usecase *SubscriptionUseCase) FindAll() ([]domain.Subscription, error) {
+func (usecase *SubscribeUseCase) FindAll() ([]domain.Subscribe, error) {
 	sub, err := usecase.repo.FindAll()
 	if err != nil {
 		return nil, err

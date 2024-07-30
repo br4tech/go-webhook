@@ -2,9 +2,9 @@ package port
 
 import "github.com/br4tech/go-webhook/internal/core/domain"
 
-type ISubscriptionRespository interface {
-	FindAll() ([]domain.Subscription, error)
-	Create(subscription *domain.Subscription) (*domain.Subscription, error)
+type ISubscribeRespository interface {
+	FindAll() ([]domain.Subscribe, error)
+	Create(Subscribe *domain.Subscribe) (*domain.Subscribe, error)
 }
 
 type IPaymentRepository interface {

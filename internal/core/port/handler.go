@@ -2,7 +2,7 @@ package port
 
 import "github.com/labstack/echo/v4"
 
-type ISubscriptionHandler interface {
+type ISubscribeHandler interface {
 	Create(c echo.Context) error
 }
 
