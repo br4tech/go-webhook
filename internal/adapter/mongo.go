@@ -3,11 +3,14 @@ package adapter
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/br4tech/go-webhook/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoAdapter[T any] struct {
@@ -18,9 +21,28 @@ type MongoAdapter[T any] struct {
 func NewMongoAdapter[T any](
 	cfg *config.Config,
 ) *MongoAdapter[T] {
+	queryString := fmt.Sprintf("mongodb://%s:%s@%s:%d/",
+		cfg.Db.Username, cfg.Db.Password, cfg.Db.Host, cfg.Db.Port)
+
+	clientOptions := options.Client().ApplyURI(queryString)
+
+	// Conectando ao banco de dados
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Ping o banco de dados para verificar a conexão
+	err = client.Ping(context.TODO(), nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return &MongoAdapter[T]{
-		cfg: cfg,
+		cfg:    cfg,
+		client: client,
 	}
 }
 

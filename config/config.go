@@ -37,7 +37,7 @@ func GetConfig() Config {
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("../")
+	viper.AddConfigPath("./")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -50,7 +50,7 @@ func GetConfig() Config {
 		},
 		Db: Db{
 			Host:           viper.GetString("database.host"),
-			Port:           viper.GetInt("datababse.port"),
+			Port:           viper.GetInt("database.port"),
 			Username:       viper.GetString("database.user"),
 			Password:       viper.GetString("database.password"),
 			CollectionName: viper.GetString("database.collection_name"),
