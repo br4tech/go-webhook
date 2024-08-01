@@ -8,5 +8,6 @@ type ISubscribeUseCase interface {
 }
 
 type IPaymentUsecase interface {
+	FindByOrderId(orderId string) ([]domain.Payment, error)
 	Create(payment *domain.Payment) (*domain.Payment, error)
 }

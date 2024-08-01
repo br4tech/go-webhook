@@ -11,21 +11,21 @@ import (
 )
 
 type echoServer struct {
-	app                 *echo.Echo
-	db                  *mongo.Client
-	cfg                 *config.Config
-	subscriptionHandler port.ISubscriptionHandler
+	app              *echo.Echo
+	db               *mongo.Client
+	cfg              *config.Config
+	subscribeHandler port.ISubscribeHandler
 }
 
 func NewEchoServer(
 	cfg *config.Config,
 	mongo *mongo.Client,
-	subscriptionHandler port.ISubscriptionHandler) IServer {
+	subscribeHandler port.ISubscribeHandler) IServer {
 
 	return &echoServer{
-		app:                 echo.New(),
-		cfg:                 cfg,
-		subscriptionHandler: subscriptionHandler,
+		app:              echo.New(),
+		cfg:              cfg,
+		subscribeHandler: subscribeHandler,
 	}
 }
 
@@ -36,7 +36,7 @@ func (s *echoServer) Start() {
 		Format: "${time_rfc3339} ${status} ${method} ${host}${path} ${latency_human}\n",
 	}))
 
-	s.app.POST("/subscriber", s.subscriptionHandler.Create)
+	s.app.POST("/subscriber", s.subscribeHandler.Create)
 
 	serverUrl := fmt.Sprintf(":%d", s.cfg.App.Port)
 	s.app.Logger.Fatal(s.app.Start(serverUrl))

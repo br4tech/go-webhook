@@ -7,5 +7,6 @@ type ISubscribeHandler interface {
 }
 
 type IPaymentHandler interface {
+	FindByOrdeId(c echo.Context) error
 	Create(c echo.Context) error
 }

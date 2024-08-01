@@ -8,5 +8,6 @@ type ISubscribeRespository interface {
 }
 
 type IPaymentRepository interface {
+	FindByOrdeId(orderId string) ([]domain.Payment, error)
 	Create(payment *domain.Payment) (*domain.Payment, error)
 }

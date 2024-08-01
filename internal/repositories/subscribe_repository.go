@@ -18,16 +18,16 @@ func NewSubscribeRespository(adapter port.IMongoDatabase[model.Subscribe]) port.
 }
 
 func (repo *SubscribeRespository) FindAll() ([]domain.Subscribe, error) {
-	SubscribeDomain := []domain.Subscribe{}
+	subscribeDomain := []domain.Subscribe{}
 
-	Subscribes, err := repo.adapter.FindAll()
+	subscribes, err := repo.adapter.FindAll()
 	if err != nil {
 		return nil, err
 	}
 
-	err = copier.Copy(SubscribeDomain, Subscribes)
+	err = copier.Copy(subscribeDomain, subscribes)
 
-	return SubscribeDomain, nil
+	return subscribeDomain, nil
 }
 
 func (repo *SubscribeRespository) Create(Subscribe *domain.Subscribe) (*domain.Subscribe, error) {

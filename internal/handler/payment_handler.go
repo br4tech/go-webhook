@@ -18,6 +18,17 @@ func NewPaymnentHandler(usecase port.IPaymentUsecase) port.IPaymentHandler {
 	}
 }
 
+func (handler *PaymentHandler) FindByOrdeId(c echo.Context) error {
+	orderId := c.Param("order_id")
+
+	payment, err := handler.usecase.FindByOrderId(orderId)
+	if err != nil {
+		return HandlerResponse(c, http.StatusNotFound, "Payment not found")
+	}
+
+	return c.JSON(http.StatusOK, payment)
+}
+
 func (handler *PaymentHandler) Create(c echo.Context) error {
 	reqBody := new(dto.PaymentDTO)
 

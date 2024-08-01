@@ -8,18 +8,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type SubscriptionHandler struct {
-	usecase port.ISubscriptionUseCase
+type SubscribeHandler struct {
+	usecase port.ISubscribeUseCase
 }
 
-func NewSubscriptionHandler(usecase port.ISubscriptionUseCase) port.ISubscriptionHandler {
-	return &SubscriptionHandler{
+func NewSubscribeHandler(usecase port.ISubscribeUseCase) port.ISubscribeHandler {
+	return &SubscribeHandler{
 		usecase: usecase,
 	}
 }
 
-func (handler *SubscriptionHandler) Create(c echo.Context) error {
-	reqBody := new(dto.SubscriptionDTO)
+func (handler *SubscribeHandler) Create(c echo.Context) error {
+	reqBody := new(dto.SubscribeDTO)
 
 	if err := c.Bind(reqBody); err != nil {
 		return HandlerResponse(c, http.StatusInternalServerError, "Bad request")
@@ -30,5 +30,5 @@ func (handler *SubscriptionHandler) Create(c echo.Context) error {
 		return HandlerResponse(c, http.StatusInternalServerError, "Failed to create subscriptiopn")
 	}
 
-	return HandlerResponse(c, http.StatusOK, "Created subscription")
+	return HandlerResponse(c, http.StatusOK, "Created Subscribe")
 }
