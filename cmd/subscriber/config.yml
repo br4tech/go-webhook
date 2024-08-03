@@ -1,8 +1,8 @@
 app:
   server:
-    port: 8080
+    port: 8082
   
-database:
+mongo:
   host: db
   port: 27017
   user: user

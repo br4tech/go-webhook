@@ -17,6 +17,21 @@ type (
 	}
 
 	Db struct {
+		Postgres Postgres
+		Mongo    Mongo
+	}
+
+	Postgres struct {
+		Host     string
+		Port     int
+		Username string
+		Password string
+		DBName   string
+		SSLMode  string
+		TimeZone string
+	}
+
+	Mongo struct {
 		Host           string
 		Port           int
 		Username       string
@@ -27,14 +42,6 @@ type (
 )
 
 func GetConfig() Config {
-
-	// executable, err := os.Executable()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// executableDir := filepath.Dir(executable)
-	// configPath := filepath.Join(executableDir, "../config.yml")
-
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./")
@@ -49,12 +56,23 @@ func GetConfig() Config {
 			Port: viper.GetInt("app.server.port"),
 		},
 		Db: Db{
-			Host:           viper.GetString("database.host"),
-			Port:           viper.GetInt("database.port"),
-			Username:       viper.GetString("database.user"),
-			Password:       viper.GetString("database.password"),
-			CollectionName: viper.GetString("database.collection_name"),
-			DatabaseName:   viper.GetString("database.database_name"),
+			Postgres: Postgres{
+				Host:     viper.GetString("postgres.host"),
+				Port:     viper.GetInt("postgres.port"),
+				Username: viper.GetString("postgres.user"),
+				Password: viper.GetString("postgres.password"),
+				DBName:   viper.GetString("postgres.dbname"),
+				SSLMode:  viper.GetString("postgres.sslmode"),
+				TimeZone: viper.GetString("postgres.timezone"),
+			},
+			Mongo: Mongo{
+				Host:           viper.GetString("mongo.host"),
+				Port:           viper.GetInt("mongo.port"),
+				Username:       viper.GetString("mongo.user"),
+				Password:       viper.GetString("mongo.password"),
+				CollectionName: viper.GetString("mongo.collection_name"),
+				DatabaseName:   viper.GetString("mongo.database_name"),
+			},
 		},
 	}
 }

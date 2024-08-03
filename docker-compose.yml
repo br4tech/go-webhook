@@ -1,29 +1,53 @@
 version: '3.8'
 
 services:
-  subscriber:
-    build:
-      context: .
-      dockerfile: cmd/subscriber/Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    environment:
-      - MONGO_URI=mongodb://user:password@localhost:27017
-
-  payment:
+  client:
     build:
       context: .
       dockerfile: cmd/payment/Dockerfile
     ports:
       - "8081:8080"
     depends_on:
-      - db
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orderdb
+
+  payment:
+    build:
+      context: .
+      dockerfile: cmd/payment/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
     environment:
       - MONGO_URI=mongodb://user:password@localhost:27017
 
-  db:
+  subscriber:
+    build:
+      context: .
+      dockerfile: cmd/subscriber/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://user:password@localhost:27017
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orderdb
+
+  mongo:
     image: mongo
     ports:
       - "27017:27017"

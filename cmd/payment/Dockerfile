@@ -17,7 +17,7 @@ COPY . .
 RUN go build -o app cmd/payment/main.go
 
 # Exponha a porta 8080 para o mundo externo
-EXPOSE 8080
+EXPOSE 8081
 
 # Comando para executar a aplicação quando o contêiner for iniciado
 CMD ["./app"]

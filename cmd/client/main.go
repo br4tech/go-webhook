@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("App de webhook")
+	fmt.Println("App de Client")
 }

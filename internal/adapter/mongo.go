@@ -22,7 +22,7 @@ func NewMongoAdapter[T any](
 	cfg *config.Config,
 ) *MongoAdapter[T] {
 	queryString := fmt.Sprintf("mongodb://%s:%s@%s:%d/",
-		cfg.Db.Username, cfg.Db.Password, cfg.Db.Host, cfg.Db.Port)
+		cfg.Db.Mongo.Username, cfg.Db.Mongo.Password, cfg.Db.Mongo.Host, cfg.Db.Mongo.Port)
 
 	clientOptions := options.Client().ApplyURI(queryString)
 
@@ -55,7 +55,7 @@ func (adapter *MongoAdapter[T]) FindBy(filter interface{}) ([]T, error) {
 		return nil, errors.New("Client is not initialized")
 	}
 
-	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.Mongo.DatabaseName).Collection(adapter.cfg.Db.Mongo.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -79,7 +79,7 @@ func (adapter *MongoAdapter[T]) FindAll() ([]T, error) {
 		return nil, errors.New("client is not connected")
 	}
 
-	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.Mongo.DatabaseName).Collection(adapter.cfg.Db.Mongo.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -104,7 +104,7 @@ func (adapter *MongoAdapter[T]) Create(entity T) error {
 		return errors.New("client is not connected")
 	}
 
-	collection := adapter.client.Database(adapter.cfg.Db.DatabaseName).Collection(adapter.cfg.Db.CollectionName)
+	collection := adapter.client.Database(adapter.cfg.Db.Mongo.DatabaseName).Collection(adapter.cfg.Db.Mongo.CollectionName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

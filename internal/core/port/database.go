@@ -9,3 +9,8 @@ type IMongoDatabase[T any] interface {
 	Create(entity T) error
 	Disconnect() error
 }
+
+type IPostgreDatabase[T any] interface {
+	FindAll() ([]T, error)
+	Create(entity T) error
+}

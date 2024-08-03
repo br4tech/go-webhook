@@ -14,10 +14,10 @@ RUN go mod download
 COPY . .
 
 # Compile a aplicação Go para o sistema operacional Linux e arquitetura AMD64
-RUN go build -o app cmd/subscriber/main.go
+RUN go build -o app cmd/client/main.go
 
 # Exponha a porta 8080 para o mundo externo
-EXPOSE 8082
+EXPOSE 8080
 
 # Comando para executar a aplicação quando o contêiner for iniciado
 CMD ["./app"]

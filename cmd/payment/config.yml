@@ -2,7 +2,7 @@ app:
   server:
     port: 8081
   
-database:
+mongo:
   host: db
   port: 27017
   user: user
