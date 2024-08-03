@@ -38,95 +38,108 @@ Este projeto implementa um webhook robusto e escalável para notificações de s
 ## Como Executar
    - Em desenvolvimento....
 
-## Acesse a Aplicação
+## Acesse as Aplicaçoes
 
-- **Webhook**: [http://localhost:8080/webhook](http://localhost:8080/webhook)
-- **Inscrições**: [http://localhost:8080/subscriptions](http://localhost:8080/subscriptions)
+  ### Client
 
+  - **Product**: [http://localhost:8080/product](http://localhost:8080/subscriptions)
+  - **Order**: [http://localhost:8080/order](http://localhost:8080/order)
+
+  ### Payment
+  
+  - **Payment**: [http://localhost:8081/payment](http://localhost:8081/payment)
+
+  ### Subscribe
+
+  - **Subscriber**: [http://localhost:8082/subscriptions](http://localhost:8082/subscriptions)
 
 ## Estrutura:
 ```bash
-  |____README.md
-  |____cmd
-  | |____subscriber
-  | | |____config.yml
-  | | |____main.go
-  | | |____Dockerfile
-  | | |____server
-  | | | |____server.go
-  | | | |____echo_server.go
-  | |____client
-  | | |____config.yml
-  | | |____main.go
-  | | |____Dockerfile
-  | | |____server
-  | | | |____server.go
-  | | | |____echo_server.go
-  | |____payment
-  | | |____config.yml
-  | | |____main.go
-  | | |____Dockerfile
-  | | |____server
-  | | | |____server.go
-  | | | |____echo_server.go
-  |____go.mod
-  |____.vscode
-  | |____launch.json
-  |____go.sum
-  |____docker-compose.yml
-  |____config
-  | |____config.go
-  |____internal
-  | |____dto
-  | | |____payment.go
-  | | |____product.go
-  | | |____subscribe.go
-  | |____repositories
-  | | |____payment_repository.go
-  | | |____order_repository.go
-  | | |____subscribe_repository.go
-  | | |____order_item_repository.go
-  | | |____product_repository.go
-  | |____adapter
-  | | |____mongo.go
-  | | |____postgres.go
-  | |____utils
-  | | |____filters
-  | | | |____greater_than.go
-  | | | |____equal.go
-  | |____model
-  | | |____postgres
-  | | | |____product.go
-  | | | |____order_item.go
-  | | | |____order.go
-  | | |____mongo
-  | | | |____payment.go
-  | | | |____subscribe.go
-  | |____core
-  | | |____port
-  | | | |____repository.go
-  | | | |____database.go
-  | | | |____handler.go
-  | | | |____usecase.go
-  | | |____usecase
-  | | | |____payment_use_case.go
-  | | | |____order_use_case.go
-  | | | |____subscription_usecase.go
-  | | | |____product_use_case.go
-  | | |____domain
-  | | | |____payment.go
-  | | | |____product.go
-  | | | |____subscribe.go
-  | | | |____payment_status.go
-  | | | |____order_item.go
-  | | | |____order.go
-  | | | |____payment_event.go
-  | |____handler
-  | | |____product_handler.go
-  | | |____subscribe_handler.go
-  | | |____handler.go
-  | | |____webhook_handler.go
-  | | |____payment_handler.go
+|____README.md
+|____config.yml
+|____cmd
+| |____subscriber
+| | |____config.yml
+| | |____main.go
+| | |____Dockerfile
+| | |____server
+| | | |____server.go
+| | | |____echo_server.go
+| |____client
+| | |____config.yml
+| | |____main.go
+| | |____Dockerfile
+| | |____server
+| | | |____server.go
+| | | |____echo_server.go
+| |____payment
+| | |____config.yml
+| | |____main.go
+| | |____Dockerfile
+| | |____server
+| | | |____server.go
+| | | |____echo_server.go
+|____go.mod
+|____.vscode
+| |____launch.json
+|____go.sum
+|____docker-compose.yml
+|____config
+| |____config.go
+|____internal
+| |____dto
+| | |____payment.go
+| | |____product.go
+| | |____subscribe.go
+| | |____order_item.go
+| | |____order.go
+| |____repositories
+| | |____payment_repository.go
+| | |____order_repository.go
+| | |____subscribe_repository.go
+| | |____order_item_repository.go
+| | |____product_repository.go
+| |____adapter
+| | |____mongo.go
+| | |____postgres.go
+| |____utils
+| | |____filters
+| | | |____greater_than.go
+| | | |____equal.go
+| |____model
+| | |____postgres
+| | | |____product.go
+| | | |____order_item.go
+| | | |____order.go
+| | | |____model.go
+| | |____mongo
+| | | |____payment.go
+| | | |____subscribe.go
+| |____core
+| | |____port
+| | | |____repository.go
+| | | |____database.go
+| | | |____handler.go
+| | | |____usecase.go
+| | |____usecase
+| | | |____payment_use_case.go
+| | | |____order_use_case.go
+| | | |____subscription_usecase.go
+| | | |____product_use_case.go
+| | |____domain
+| | | |____payment.go
+| | | |____product.go
+| | | |____subscribe.go
+| | | |____payment_status.go
+| | | |____order_item.go
+| | | |____order.go
+| | | |____payment_event.go
+| |____handler
+| | |____product_handler.go
+| | |____subscribe_handler.go
+| | |____handler.go
+| | |____payment_handler.go
+| | |____order_handler.go
 ```
 ## Observações
 
