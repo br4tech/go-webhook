@@ -37,6 +37,6 @@ func (s *echoServer) Start() {
 
 	s.app.POST("/subscriber", s.subscribeHandler.Create)
 
-	serverUrl := fmt.Sprintf(":%d", s.cfg.App.Port)
+	serverUrl := fmt.Sprintf(":%d", s.cfg.App.SubscriberPort)
 	s.app.Logger.Fatal(s.app.Start(serverUrl))
 }

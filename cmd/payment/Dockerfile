@@ -2,7 +2,7 @@
 FROM golang:1.21.0
 
 # Defina o diretório de trabalho dentro do contêiner
-WORKDIR /app
+WORKDIR /payment
 
 # Copie o arquivo go.mod e go.sum para o diretório de trabalho
 COPY go.mod go.sum ./
@@ -14,10 +14,10 @@ RUN go mod download
 COPY . .
 
 # Compile a aplicação Go para o sistema operacional Linux e arquitetura AMD64
-RUN go build -o app cmd/payment/main.go
+RUN go build -o payment cmd/payment/main.go
 
-# Exponha a porta 8080 para o mundo externo
+# Exponha a porta 8081 para o mundo externo
 EXPOSE 8081
 
 # Comando para executar a aplicação quando o contêiner for iniciado
-CMD ["./app"]
+CMD ["./payment"]

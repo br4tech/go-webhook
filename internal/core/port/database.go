@@ -1,6 +1,9 @@
 package port
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"go.mongodb.org/mongo-driver/mongo"
+	"gorm.io/gorm"
+)
 
 type IMongoDatabase[T any] interface {
 	ClientMongo() *mongo.Client
@@ -10,7 +13,8 @@ type IMongoDatabase[T any] interface {
 	Disconnect() error
 }
 
-type IPostgreDatabase[T any] interface {
+type IPostgreDatabase[T IModel] interface {
+	GetDb() *gorm.DB
 	FindAll() ([]T, error)
 	Create(entity T) (int, error)
 }

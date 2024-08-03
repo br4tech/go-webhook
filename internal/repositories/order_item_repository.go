@@ -1,26 +1,33 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
 	model "github.com/br4tech/go-webhook/internal/model/postgres"
 )
 
-type OrderItemRepository struct {
-	postgres port.IPostgreDatabase[model.OrderItem]
+type OrderItemRepository[T port.IModel] struct {
+	orderItemAdapter port.IPostgreDatabase[T]
 }
 
-func NewOrderItemRepository(postgres port.IPostgreDatabase[model.OrderItem]) port.IOrderItemRepository {
-	return &OrderItemRepository{
-		postgres: postgres,
+func NewOrderItemRepository[T port.IModel](orderItemAdapter port.IPostgreDatabase[T]) port.IOrderItemRepository {
+	return &OrderItemRepository[T]{
+		orderItemAdapter: orderItemAdapter,
 	}
 }
 
-func (repo *OrderItemRepository) Create(orderItem *domain.OrderItem) (*domain.OrderItem, error) {
+func (repo *OrderItemRepository[T]) Create(orderItem *domain.OrderItem) (*domain.OrderItem, error) {
 	orderItemModel := new(model.OrderItem)
 	orderItemModel.FromDomain(orderItem)
 
-	orderItemId, err := repo.postgres.Create(*orderItemModel)
+	orderItemEntity, ok := any(orderItemModel).(T)
+	if !ok {
+		return nil, errors.New("entity type invalid to Product")
+	}
+
+	orderItemId, err := repo.orderItemAdapter.Create(orderItemEntity)
 	if err != nil {
 		return nil, err
 	}

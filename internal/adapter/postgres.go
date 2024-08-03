@@ -6,6 +6,7 @@ import (
 
 	"github.com/br4tech/go-webhook/config"
 	"github.com/br4tech/go-webhook/internal/core/port"
+	model "github.com/br4tech/go-webhook/internal/model/postgres"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,7 +15,7 @@ type PostgresAdapter[T port.IModel] struct {
 	Db *gorm.DB
 }
 
-func NewPostgresAdapter[T any](cfg *config.Config) *PostgresAdapter[port.IModel] {
+func NewPostgresAdapter[T port.IModel](cfg *config.Config) port.IPostgreDatabase[T] {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
 		cfg.Db.Postgres.Host,
@@ -31,7 +32,7 @@ func NewPostgresAdapter[T any](cfg *config.Config) *PostgresAdapter[port.IModel]
 		panic("Falha ao conectar ao banco de dados")
 	}
 
-	return &PostgresAdapter[port.IModel]{
+	return &PostgresAdapter[T]{
 		Db: db,
 	}
 }
@@ -69,3 +70,8 @@ func (adapter *PostgresAdapter[T]) Create(entity T) (int, error) {
 
 	return id, nil
 }
+
+// Implementação da interface IPostgreDatabase para cada modelo
+var _ port.IPostgreDatabase[model.Product] = (*PostgresAdapter[model.Product])(nil)
+var _ port.IPostgreDatabase[model.Order] = (*PostgresAdapter[model.Order])(nil)
+var _ port.IPostgreDatabase[model.OrderItem] = (*PostgresAdapter[model.OrderItem])(nil)

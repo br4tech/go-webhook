@@ -41,6 +41,6 @@ func (s *echoServer) Start() {
 	s.app.POST("/product", s.productHandler.Create)
 	s.app.POST("/order", s.orderHandler.Create)
 
-	serverUrl := fmt.Sprintf(":%d", s.cfg.App.Port)
+	serverUrl := fmt.Sprintf(":%d", s.cfg.App.ClientPort)
 	s.app.Logger.Fatal(s.app.Start(serverUrl))
 }

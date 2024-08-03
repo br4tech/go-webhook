@@ -7,12 +7,12 @@ import (
 )
 
 type ProductRepository struct {
-	postgres port.IPostgreDatabase[model.Product]
+	productAdapter port.IPostgreDatabase[model.Product]
 }
 
-func NewProductRepository(postgres port.IPostgreDatabase[model.Product]) port.IProductRepository {
+func NewProductRepository(productAdapter port.IPostgreDatabase[model.Product]) port.IProductRepository {
 	return &ProductRepository{
-		postgres: postgres,
+		productAdapter: productAdapter,
 	}
 }
 
@@ -24,7 +24,7 @@ func (repo *ProductRepository) Create(product *domain.Product) (*domain.Product,
 	productModel := new(model.Product)
 	productModel.FromDomain(product)
 
-	productId, err := repo.postgres.Create(*productModel)
+	productId, err := repo.productAdapter.Create(*productModel)
 	if err != nil {
 		return nil, err
 	}

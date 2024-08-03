@@ -13,7 +13,9 @@ type (
 	}
 
 	App struct {
-		Port int
+		ClientPort     int
+		PaymentPort    int
+		SubscriberPort int
 	}
 
 	Db struct {
@@ -53,7 +55,9 @@ func GetConfig() Config {
 
 	return Config{
 		App: App{
-			Port: viper.GetInt("app.server.port"),
+			ClientPort:     viper.GetInt("app.client.port"),
+			PaymentPort:    viper.GetInt("app.payment.port"),
+			SubscriberPort: viper.GetInt("app.subscriber.port"),
 		},
 		Db: Db{
 			Postgres: Postgres{

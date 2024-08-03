@@ -12,6 +12,7 @@ import (
 
 func main() {
 	// 1. Carregar a configuração
+
 	cfg := config.GetConfig()
 
 	// 2. Criar o adaptador MongoDB

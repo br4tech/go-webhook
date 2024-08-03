@@ -38,6 +38,6 @@ func (s *echoServer) Start() {
 	s.app.POST("/payment", s.paymentHandler.Create)
 	s.app.GET("/payment/:order_id/order", s.paymentHandler.FindByOrdeId)
 
-	serverUrl := fmt.Sprintf(":%d", s.cfg.App.Port)
+	serverUrl := fmt.Sprintf(":%d", s.cfg.App.PaymentPort)
 	s.app.Logger.Fatal(s.app.Start(serverUrl))
 }
