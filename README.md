@@ -69,16 +69,16 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 
   ### Client
 
-  - **Product**: [http://localhost:8080/product](http://localhost:8080/subscriptions)
-  - **Order**: [http://localhost:8080/order](http://localhost:8080/order)
+  - **Product**: [http://localhost:8080/product](product)
+  - **Order**: [http://localhost:8080/order](order)
 
   ### Payment
   
-  - **Payment**: [http://localhost:8081/payment](http://localhost:8081/payment)
+  - **Payment**: [http://localhost:8081/payment](payment)
 
   ### Subscribe
 
-  - **Subscriber**: [http://localhost:8082/subscriptions](http://localhost:8082/subscriptions)
+  - **Subscriber**: [http://localhost:8082//subscriber](subscriber)
 
 ## Estrutura:
 ```bash
