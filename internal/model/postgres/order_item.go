@@ -3,11 +3,15 @@ package model
 import "github.com/br4tech/go-webhook/internal/core/domain"
 
 type OrderItem struct {
-	Id        int     `gorm:"primaryKey;column:id"`
+	Model
 	Quantity  int     `gorm:"column:quantity"`
 	ProductId int     `gorm:"column:product_id"`
 	Price     float32 `gorm:"column:price"`
 	SubPrice  float32 `gorm:"column:sub_price"`
+}
+
+func (model OrderItem) GetId() int {
+	return model.Id
 }
 
 func (model *OrderItem) ToDomain() *domain.OrderItem {

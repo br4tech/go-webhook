@@ -19,5 +19,17 @@ func NewOrderUseCase(orderRepository port.IOrderRepository,
 }
 
 func (usecase *OrderUsecase) Create(order *domain.Order) (*domain.Order, error) {
-	return nil, nil
+	order, err := usecase.orderRepository.Create(order)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, item := range order.Items {
+		_, err := usecase.orderItemReposiotry.Create(&item)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return order, nil
 }

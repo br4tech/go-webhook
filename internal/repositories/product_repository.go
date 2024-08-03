@@ -3,7 +3,7 @@ package repositories
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
-	model "github.com/br4tech/go-webhook/internal/model/gorm"
+	model "github.com/br4tech/go-webhook/internal/model/postgres"
 )
 
 type ProductRepository struct {
@@ -24,10 +24,11 @@ func (repo *ProductRepository) Create(product *domain.Product) (*domain.Product,
 	productModel := new(model.Product)
 	productModel.FromDomain(product)
 
-	err := repo.postgres.Create(*productModel)
+	productId, err := repo.postgres.Create(*productModel)
 	if err != nil {
 		return nil, err
 	}
+	product.Id = productId
 
 	return product, nil
 }

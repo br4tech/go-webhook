@@ -3,7 +3,7 @@ package repositories
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
-	"github.com/br4tech/go-webhook/internal/model"
+	model "github.com/br4tech/go-webhook/internal/model/mongo"
 	"github.com/br4tech/go-webhook/internal/utils/filters"
 	"github.com/jinzhu/copier"
 )

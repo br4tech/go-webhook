@@ -12,5 +12,9 @@ type IMongoDatabase[T any] interface {
 
 type IPostgreDatabase[T any] interface {
 	FindAll() ([]T, error)
-	Create(entity T) error
+	Create(entity T) (int, error)
+}
+
+type IModel interface {
+	GetId() int
 }

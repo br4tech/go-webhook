@@ -2,15 +2,16 @@ package model
 
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
-	"gorm.io/gorm"
 )
 
 type Product struct {
-	gorm.Model
-
-	Id   int    `gorm:"unique;not null;column:id"`
+	Model
 	Code string `gorm:"unique;not null;column:code"`
 	Name string `gorm:"unique;not null;column:name"`
+}
+
+func (model Product) GetId() int {
+	return model.Id
 }
 
 func (model *Product) ToDomain() *domain.Product {

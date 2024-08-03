@@ -5,15 +5,16 @@ import (
 	"fmt"
 
 	"github.com/br4tech/go-webhook/config"
+	"github.com/br4tech/go-webhook/internal/core/port"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type PostgresAdapter[T any] struct {
+type PostgresAdapter[T port.IModel] struct {
 	Db *gorm.DB
 }
 
-func NewPostgresAdapter[T any](cfg *config.Config) *PostgresAdapter[T] {
+func NewPostgresAdapter[T any](cfg *config.Config) *PostgresAdapter[port.IModel] {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
 		cfg.Db.Postgres.Host,
@@ -30,7 +31,7 @@ func NewPostgresAdapter[T any](cfg *config.Config) *PostgresAdapter[T] {
 		panic("Falha ao conectar ao banco de dados")
 	}
 
-	return &PostgresAdapter[T]{
+	return &PostgresAdapter[port.IModel]{
 		Db: db,
 	}
 }
@@ -54,14 +55,17 @@ func (adapter *PostgresAdapter[T]) FindAll() ([]T, error) {
 	return results, nil
 }
 
-func (adapter *PostgresAdapter[T]) Create(entity T) error {
+func (adapter *PostgresAdapter[T]) Create(entity T) (int, error) {
 	if adapter.Db == nil {
-		return errors.New("database connection not established")
+		return 0, errors.New("database connection not established")
 	}
 
 	create := adapter.Db.Create(entity)
 	if create.Error != nil {
-		return create.Error
+		return 0, create.Error
 	}
-	return nil
+
+	id := entity.GetId()
+
+	return id, nil
 }

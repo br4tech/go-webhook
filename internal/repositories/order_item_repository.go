@@ -17,5 +17,14 @@ func NewOrderItemRepository(postgres port.IPostgreDatabase[model.OrderItem]) por
 }
 
 func (repo *OrderItemRepository) Create(orderItem *domain.OrderItem) (*domain.OrderItem, error) {
-	return nil, nil
+	orderItemModel := new(model.OrderItem)
+	orderItemModel.FromDomain(orderItem)
+
+	orderItemId, err := repo.postgres.Create(*orderItemModel)
+	if err != nil {
+		return nil, err
+	}
+	orderItem.Id = orderItemId
+
+	return orderItem, nil
 }
