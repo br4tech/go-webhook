@@ -1,6 +1,12 @@
-# Webhook de Notificação de Pagamentos
+# Notificação de Pagamentos
 
-Este projeto implementa uma aplicacao com o fluxo de pagamento robusto e escalável utilizando:
+Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
+
+   1. Client responsavel por criar um pedido(order) de venda
+   2. Subscriber responsavel por criar as inscricaoes dos webhook(outbound)
+   3. Payment responsavel port transitar os pagemento  e informar os webhook inscritos 
+  
+  Todas as aplicacoes se encontra nesse repo, com uma estrutura robusto e escalável utilizando:
 
 - **Arquitetura Hexagonal**: Separação clara de responsabilidades, promovendo testabilidade e flexibilidade.
 - **MongoDB**: Banco de dados NoSQL flexível e escalável para armazenar inscrições e eventos.
@@ -166,4 +172,5 @@ Este projeto implementa uma aplicacao com o fluxo de pagamento robusto e escalá
 
 - Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 - Adapte as configurações do Docker Compose (portas, nomes de contêineres, etc.) para o seu ambiente.
+- Hoje estamos compartilhando os dados de casos de uso e repository, porem com a estrutura adotada podemos levar nosso fonte para diferentes repo.
 
