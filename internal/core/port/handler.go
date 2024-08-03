@@ -11,5 +11,10 @@ type IPaymentHandler interface {
 	Create(c echo.Context) error
 }
 
+type IProductHandler interface {
+	Create(c echo.Context) error
+}
+
 type IOrderHandler interface {
+	Create(c echo.Context) error
 }

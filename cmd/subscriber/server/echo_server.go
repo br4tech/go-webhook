@@ -12,7 +12,6 @@ import (
 
 type echoServer struct {
 	app              *echo.Echo
-	db               *mongo.Client
 	cfg              *config.Config
 	subscribeHandler port.ISubscribeHandler
 }

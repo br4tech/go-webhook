@@ -11,21 +11,23 @@ import (
 )
 
 type echoServer struct {
-	app          *echo.Echo
-	db           *gorm.DB
-	cfg          *config.Config
-	orderHandler port.IOrderHandler
+	app            *echo.Echo
+	cfg            *config.Config
+	orderHandler   port.IOrderHandler
+	productHandler port.IProductHandler
 }
 
 func NewEchoServer(
 	cfg *config.Config,
 	db *gorm.DB,
-	orderHandler port.IOrderHandler) IServer {
-
+	orderHandler port.IOrderHandler,
+	productHandler port.IProductHandler,
+) IServer {
 	return &echoServer{
-		app:          echo.New(),
-		cfg:          cfg,
-		orderHandler: orderHandler,
+		app:            echo.New(),
+		cfg:            cfg,
+		orderHandler:   orderHandler,
+		productHandler: productHandler,
 	}
 }
 
@@ -36,7 +38,8 @@ func (s *echoServer) Start() {
 		Format: "${time_rfc3339} ${status} ${method} ${host}${path} ${latency_human}\n",
 	}))
 
-	// s.app.POST("/subscriber", s.webhookHandler)
+	s.app.POST("/product", s.productHandler.Create)
+	s.app.POST("/order", s.orderHandler.Create)
 
 	serverUrl := fmt.Sprintf(":%d", s.cfg.App.Port)
 	s.app.Logger.Fatal(s.app.Start(serverUrl))

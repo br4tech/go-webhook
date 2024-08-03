@@ -6,7 +6,7 @@ import (
 	"github.com/br4tech/go-webhook/internal/adapter"
 	"github.com/br4tech/go-webhook/internal/core/usecase"
 	"github.com/br4tech/go-webhook/internal/handler"
-	"github.com/br4tech/go-webhook/internal/model"
+	model "github.com/br4tech/go-webhook/internal/model/mongo"
 	"github.com/br4tech/go-webhook/internal/repositories"
 )
 
