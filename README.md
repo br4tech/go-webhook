@@ -1,30 +1,42 @@
 # Webhook de Notificação de Pagamentos
 
-Este projeto implementa um webhook robusto e escalável para notificações de status de pagamento, utilizando:
+Este projeto implementa uma aplicacao com o fluxo de pagamento robusto e escalável utilizando:
 
 - **Arquitetura Hexagonal**: Separação clara de responsabilidades, promovendo testabilidade e flexibilidade.
 - **MongoDB**: Banco de dados NoSQL flexível e escalável para armazenar inscrições e eventos.
-- **MongoDB Generic Driver**: Interface genérica para interagir com o MongoDB, facilitando a manutenção e a troca de drivers, se necessário.
+- **PostgreSQL**: Banco de dados Relacional para armazenar produtos e pedidos.
 - **Docker**: Contêinerização para facilitar o desenvolvimento, teste e implantação.
-- **Docker Compose**: Orquestração de múltiplos contêineres (webhook, MongoDB) para simplificar o ambiente de desenvolvimento.
+- **Docker Compose**: Orquestração de múltiplos contêineres (client, payment e subscriber) para simplificar o ambiente de desenvolvimento.
 
 ## Componentes Principais
 
 ### Domínio
-- **Entidades**: PaymentStatus (enum) e PaymentEvent (struct).
-- **Ports**: Interfaces para abstrair a persistência de dados e o envio de notificações.
+- **Entidades**: Product, Order, OrderItem, Payment, Subscriber (struct).
+- **Ports**: Interfaces para abstrair a persistência de dados e DI.
 
 ### Aplicação
-- **Webhook Handler**: Lida com as requisições do webhook, valida, processa e notifica os inscritos.
-- **Rotas**:
-  - `/webhook`: Endpoint para receber notificações de status de pagamento.
-  - `/subscriptions`: Endpoint para gerenciar inscrições de usuários em pagamentos.
+
+- **Client**: Lida com a criacao de produto e pedido no PostgreSQL.
+  - **Rotas**:
+    - `/product`: Endpoint para criar produto.
+    - `/order`: Endpoint para criar um pedido, com base no produto criado.
+
+- **Payment**: Lida com o fluxo de pagamento e envia o evento para o webhook configurado.
+  - **Rotas**:
+    - `/payment`: Endpoint para transitar o status de pagamento do pedido.
+
+- **Subscribe**: Lida com o fluxo de inscritos, atraves dele sabemos a rota para enviar o evento.
+  - **Rotas**:
+    - `/subscriber`: Endpoint para gerenciar inscrições de usuários que vao receber os eventos de pagamentos.
+
 
 ### Adapters
-- **MongoDB Adapter**: Implementa o port de persistência, interagindo com o MongoDB para armazenar e recuperar dados.
-- **Notification Adapter**: Implementa o port de notificação, enviando notificações para os usuários inscritos (e-mail, push, etc.).
+
+- **MongoAdapter**: Implementa o port de persistência, interagindo com o MongoDB para armazenar e recuperar dados.
+- **PostgresAdapter**: Implementa o port persistência, interagindo com o PostgreSQL para armazenar e recuperar dados..
 
 ### Infraestrutura
+
 - **Docker**: Contêineriza a aplicação webhook e o MongoDB.
 - **Docker Compose**: Define e orquestra os contêineres.
 
@@ -36,7 +48,16 @@ Este projeto implementa um webhook robusto e escalável para notificações de s
 - **Facilidade de Desenvolvimento**: Docker e Docker Compose simplificam a configuração do ambiente de desenvolvimento.
 
 ## Como Executar
-   - Em desenvolvimento....
+
+   1. Clone o repositório:
+   ```bash
+    git clone https://github.com/br4tech/go-webhook.git
+   ```
+
+   2. Inicie os serviços com Docker Compose:
+   ```bash
+    docker-compose up
+   ```
 
 ## Acesse as Aplicaçoes
 
