@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
+	"github.com/br4tech/go-webhook/internal/utils/validator"
 )
 
 type PaymentUseCase struct {
@@ -25,6 +26,11 @@ func (usecase *PaymentUseCase) FindByOrderId(orderId string) ([]domain.Payment, 
 }
 
 func (usecase *PaymentUseCase) Create(payment *domain.Payment) (*domain.Payment, error) {
+
+	if err := validator.ValidateStruct(payment); err != nil {
+		return nil, err
+	}
+
 	pay, err := usecase.repo.Create(payment)
 	if err != nil {
 		return nil, err

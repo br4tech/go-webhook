@@ -1,15 +1,17 @@
 package domain
 
 type Subscribe struct {
-	Id           int
-	PaymentId    int
-	SubscriberId int
+	Id        int    `validate:"required"`
+	PaymentId int    `validate:"required"`
+	Webhook   string `validate:"required"`
+	Token     string `validate:"required"`
 }
 
-func NewSubscribe(id, paymentId, subscriberId int) *Subscribe {
+func NewSubscribe(id, paymentId int, webhook, token string) *Subscribe {
 	return &Subscribe{
-		Id:           id,
-		PaymentId:    paymentId,
-		SubscriberId: subscriberId,
+		Id:        id,
+		PaymentId: paymentId,
+		Webhook:   webhook,
+		Token:     token,
 	}
 }

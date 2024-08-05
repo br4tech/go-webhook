@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
+	"github.com/br4tech/go-webhook/internal/utils/validator"
 )
 
 type OrderUsecase struct {
@@ -19,6 +20,11 @@ func NewOrderUseCase(orderRepository port.IOrderRepository,
 }
 
 func (usecase *OrderUsecase) Create(order *domain.Order) (*domain.Order, error) {
+
+	if err := validator.ValidateStruct(order); err != nil {
+		return nil, err
+	}
+
 	order, err := usecase.orderRepository.Create(order)
 	if err != nil {
 		return nil, err

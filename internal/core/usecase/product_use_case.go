@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/br4tech/go-webhook/internal/core/domain"
 	"github.com/br4tech/go-webhook/internal/core/port"
+	"github.com/br4tech/go-webhook/internal/utils/validator"
 )
 
 type ProductUseCase struct {
@@ -25,6 +26,11 @@ func (usecase *ProductUseCase) FindById(id int) (*domain.Product, error) {
 }
 
 func (usecase *ProductUseCase) Create(product *domain.Product) (*domain.Product, error) {
+
+	if err := validator.ValidateStruct(product); err != nil {
+		return nil, err
+	}
+
 	product, err := usecase.productRepo.Create(product)
 	if err != nil {
 		return nil, err
