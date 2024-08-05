@@ -11,6 +11,7 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 - **Arquitetura Hexagonal**: Separação clara de responsabilidades, promovendo testabilidade e flexibilidade.
 - **MongoDB**: Banco de dados NoSQL flexível e escalável para armazenar inscrições e eventos.
 - **PostgreSQL**: Banco de dados Relacional para armazenar produtos e pedidos.
+- **RabbitMQ**: Mesage broker utilizado para receber os eventos e encaminhar para os webhook inscrito.
 - **Docker**: Contêinerização para facilitar o desenvolvimento, teste e implantação.
 - **Docker Compose**: Orquestração de múltiplos contêineres (client, payment e subscriber) para simplificar o ambiente de desenvolvimento.
 
@@ -39,7 +40,8 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 ### Adapters
 
 - **MongoAdapter**: Implementa o port de persistência, interagindo com o MongoDB para armazenar e recuperar dados.
-- **PostgresAdapter**: Implementa o port persistência, interagindo com o PostgreSQL para armazenar e recuperar dados..
+- **PostgresAdapter**: Implementa o port persistência, interagindo com o PostgreSQL para armazenar e recuperar dados.
+- **RabbitMQAdapter**: Implementa o port de mesage broker.
 
 ### Infraestrutura
 
@@ -86,21 +88,18 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 |____config.yml
 |____cmd
 | |____subscriber
-| | |____config.yml
 | | |____main.go
 | | |____Dockerfile
 | | |____server
 | | | |____server.go
 | | | |____echo_server.go
 | |____client
-| | |____config.yml
 | | |____main.go
 | | |____Dockerfile
 | | |____server
 | | | |____server.go
 | | | |____echo_server.go
 | |____payment
-| | |____config.yml
 | | |____main.go
 | | |____Dockerfile
 | | |____server
@@ -128,11 +127,14 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 | | |____product_repository.go
 | |____adapter
 | | |____mongo.go
+| | |____rabbitmq.go
 | | |____postgres.go
 | |____utils
 | | |____filters
 | | | |____greater_than.go
 | | | |____equal.go
+| | |____validator
+| | | |____validator.go
 | |____model
 | | |____postgres
 | | | |____product.go
@@ -146,6 +148,7 @@ Este projeto implementa 3 aplicacoes no fluxo de venda e pagamento:
 | | |____port
 | | | |____repository.go
 | | | |____database.go
+| | | |____messaging.go
 | | | |____handler.go
 | | | |____usecase.go
 | | |____usecase
