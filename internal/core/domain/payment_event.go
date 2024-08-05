@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type PaymentStatusChangedEvent struct {
-	PaymentID string
+	PaymentId string
 	NewStatus PaymentStatus
 	Timestamp time.Time
 }
